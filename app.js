@@ -26,8 +26,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   let currentBranch = 'us'; // Default branch
 
-  // --- DOM Elements ---
-  const customCursor = document.querySelector('.custom-cursor');
+
   
   // Header Elements
   const header = document.querySelector('.header');
@@ -61,24 +60,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const sarkodieVideo = document.getElementById('sarkodie-video');
   const videoOverlays = document.querySelectorAll('.video-overlay-play');
 
-  // --- 1. Custom Cursor Animation ---
-  if (customCursor) {
-    document.addEventListener('mousemove', (e) => {
-      customCursor.style.left = `${e.clientX}px`;
-      customCursor.style.top = `${e.clientY}px`;
-    });
 
-    // Add hover states to interactives
-    const hoverElements = document.querySelectorAll('a, button, input, textarea, .gallery-card, .celeb-card');
-    hoverElements.forEach(element => {
-      element.addEventListener('mouseenter', () => {
-        customCursor.classList.add('hovered');
-      });
-      element.addEventListener('mouseleave', () => {
-        customCursor.classList.remove('hovered');
-      });
-    });
-  }
 
   // --- 2. Branch State Manager ---
   function updateBranchUI(branchCode) {
