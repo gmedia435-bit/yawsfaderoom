@@ -1499,20 +1499,20 @@ section {
 
   /* --- WhatsApp Button --- */
   .floating-whatsapp-btn {
-    bottom: 18px;
-    right: 18px;
-    width: 54px;
-    height: 54px;
+    bottom: 20px;
+    right: 20px;
+    width: 68px;
+    height: 68px;
   }
 
   .whatsapp-icon-svg {
-    width: 54px;
-    height: 54px;
+    width: 68px;
+    height: 68px;
   }
 
   .whatsapp-pulse {
-    width: 54px;
-    height: 54px;
+    width: 68px;
+    height: 68px;
   }
 
   /* --- Booking Modal --- */
