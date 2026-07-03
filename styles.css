@@ -1501,18 +1501,18 @@ section {
   .floating-whatsapp-btn {
     bottom: 20px;
     right: 20px;
-    width: 68px;
-    height: 68px;
+    width: 80px;
+    height: 80px;
   }
 
   .whatsapp-icon-svg {
-    width: 68px;
-    height: 68px;
+    width: 80px;
+    height: 80px;
   }
 
   .whatsapp-pulse {
-    width: 68px;
-    height: 68px;
+    width: 80px;
+    height: 80px;
   }
 
   /* --- Booking Modal --- */
@@ -1602,11 +1602,12 @@ section {
   position: fixed;
   bottom: 30px;
   right: 30px;
-  width: 62px;
-  height: 62px;
+  width: 70px;
+  height: 70px;
   border-radius: 50%;
-  background: none !important;
+  background: transparent !important;
   background-color: transparent !important;
+  background-image: none !important;
   border: none !important;
   outline: none !important;
   box-shadow: none !important;
@@ -1619,25 +1620,34 @@ section {
   align-items: center;
   justify-content: center;
   transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  -webkit-tap-highlight-color: transparent;
 }
 
-.floating-whatsapp-btn:hover {
-  transform: scale(1.12);
+.floating-whatsapp-btn:hover,
+.floating-whatsapp-btn:focus,
+.floating-whatsapp-btn:active {
+  transform: scale(1.1);
+  background: transparent !important;
+  background-color: transparent !important;
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
 }
 
 .whatsapp-icon-svg {
-  width: 62px;
-  height: 62px;
+  width: 70px;
+  height: 70px;
   border-radius: 50%;
   box-shadow: 0 8px 32px rgba(37, 211, 102, 0.5);
   display: block;
+  flex-shrink: 0;
 }
 
 /* Pulse ring animation */
 .whatsapp-pulse {
   position: absolute;
-  width: 62px;
-  height: 62px;
+  width: 70px;
+  height: 70px;
   border-radius: 50%;
   background-color: rgba(37, 211, 102, 0.35);
   animation: whatsapp-pulse-ring 2s ease-out infinite;
