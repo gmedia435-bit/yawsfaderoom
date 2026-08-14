@@ -484,58 +484,75 @@
 
   <!-- Location Map & Contact Section -->
   <section class="location-section" id="location-section">
-    <div class="container grid-2">
-      <div class="map-container reveal-on-scroll" id="branch-map-container">
-        <!-- Map will be injected dynamically based on branch state -->
-        <iframe 
-          id="branch-map-iframe"
-          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2820.252063066374!2d-93.26883598446387!3d45.01564037909811!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNDXCsDAwJzU2LjMiTiA5M8KwMTUnNTkuOSJX!5e0!3m2!1sen!2sus!4v1680000000000!5m2!1sen!2sus"
-          width="100%" 
-          height="100%" 
-          style="border:0;" 
-          allowfullscreen="" 
-          loading="lazy" 
-          referrerpolicy="no-referrer-when-downgrade">
-        </iframe>
+    <div class="container">
+      <div class="center-header reveal-on-scroll">
+        <span class="section-label">FIND US</span>
+        <h2 class="section-title">Two Locations. One Standard of Excellence.</h2>
       </div>
-      <div class="location-info reveal-on-scroll">
-        <span class="section-label">VISIT US</span>
-        <h2 class="section-title" id="branch-address-title">Minnesota Branch</h2>
-        
-        <div class="info-blocks">
-          <div class="info-block">
-            <div class="info-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-            </div>
-            <div>
-              <h4>Location Address</h4>
-              <p id="branch-address-text">Northeast Minneapolis Area, MN (45°00'56.3"N 93°15'59.9"W)</p>
-              <a href="#" target="_blank" rel="noopener noreferrer" class="info-link" id="branch-map-link">Open in Google Maps</a>
-            </div>
-          </div>
 
-          <div class="info-block">
-            <div class="info-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-            </div>
-            <div>
-              <h4>WhatsApp Hotline</h4>
-              <p id="branch-phone-text">+1 218-940-0374</p>
-              <a href="#" class="info-link" id="branch-whatsapp-link">Chat Directly</a>
-            </div>
-          </div>
+      <!-- Dual Maps Grid -->
+      <div class="dual-maps-grid reveal-on-scroll">
 
-          <div class="info-block">
-            <div class="info-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
-            </div>
+        <!-- USA Branch -->
+        <div class="branch-map-card">
+          <div class="branch-map-label">
+            <span class="branch-flag">🇺🇸</span>
             <div>
-              <h4>Opening Hours</h4>
-              <p>Monday - Saturday: 9:00 AM - 9:00 PM</p>
-              <p class="dimmed">Sunday: Closed</p>
+              <h4>Minneapolis, USA</h4>
+              <p>Northeast Minneapolis Area, MN</p>
             </div>
+            <a href="https://www.google.com/maps/place/45%C2%B000'56.3%22N+93%C2%B015'59.9%22W/@45.0156531,-93.2668849,21z" target="_blank" rel="noopener noreferrer" class="info-link">Open in Maps ↗</a>
+          </div>
+          <div class="branch-map-frame">
+            <iframe
+              src="https://maps.google.com/maps?q=45.0156404,-93.2666473&z=16&output=embed"
+              width="100%"
+              height="100%"
+              style="border:0;"
+              allowfullscreen=""
+              loading="lazy"
+              referrerpolicy="no-referrer-when-downgrade">
+            </iframe>
+          </div>
+          <div class="branch-map-contact">
+            <span>📞 +1 218-940-0374</span>
+            <a href="https://wa.me/12189400374" target="_blank" rel="noopener noreferrer" class="info-link">Chat on WhatsApp</a>
           </div>
         </div>
+
+        <!-- Ghana Branch -->
+        <div class="branch-map-card">
+          <div class="branch-map-label">
+            <span class="branch-flag">🇬🇭</span>
+            <div>
+              <h4>Accra, Ghana</h4>
+              <p>Yaw's Faderoom, Dome Road, Accra</p>
+            </div>
+            <a href="https://www.google.com/maps/place/YAW%E2%80%99s+FADEROOM/@5.6485209,-0.2296482,17z" target="_blank" rel="noopener noreferrer" class="info-link">Open in Maps ↗</a>
+          </div>
+          <div class="branch-map-frame">
+            <iframe
+              src="https://maps.google.com/maps?q=5.6485209,-0.2296482&z=17&output=embed"
+              width="100%"
+              height="100%"
+              style="border:0;"
+              allowfullscreen=""
+              loading="lazy"
+              referrerpolicy="no-referrer-when-downgrade">
+            </iframe>
+          </div>
+          <div class="branch-map-contact">
+            <span>📞 +233 240695968</span>
+            <a href="https://wa.me/233240695968" target="_blank" rel="noopener noreferrer" class="info-link">Chat on WhatsApp</a>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Hours -->
+      <div class="location-hours-bar reveal-on-scroll">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+        <span><strong>Opening Hours:</strong> Monday – Saturday &nbsp;|&nbsp; 9:00 AM – 9:00 PM &nbsp;|&nbsp; Sunday: Closed</span>
       </div>
     </div>
   </section>
@@ -623,6 +640,11 @@
           <span>CONFIRM BOOKING VIA WHATSAPP</span>
           <svg class="submit-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
         </button>
+
+        <!-- Booking Disclaimer -->
+        <p class="booking-disclaimer">
+          ⚠️ <strong>Please note:</strong> Booking online to skip the queue attracts an additional priority fee. Walk-in rates apply for standard queuing.
+        </p>
       </form>
     </div>
   </div>
