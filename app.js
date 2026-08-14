@@ -62,6 +62,37 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
+  // --- 1. iOS Hero Video Autoplay Fix ---
+  const heroVideo = document.getElementById('hero-video-element');
+
+  function forceHeroVideoPlay() {
+    if (!heroVideo) return;
+    heroVideo.muted = true; // Must be muted for iOS autoplay policy
+    const playPromise = heroVideo.play();
+    if (playPromise !== undefined) {
+      playPromise.catch(() => {
+        // Autoplay was blocked — retry on first user interaction
+        const retryPlay = () => {
+          heroVideo.play().catch(() => {});
+          document.removeEventListener('touchstart', retryPlay);
+          document.removeEventListener('click', retryPlay);
+        };
+        document.addEventListener('touchstart', retryPlay, { once: true, passive: true });
+        document.addEventListener('click', retryPlay, { once: true });
+      });
+    }
+  }
+
+  // Try immediately on load
+  forceHeroVideoPlay();
+
+  // Resume video if user comes back to tab (iOS pauses background tabs)
+  document.addEventListener('visibilitychange', () => {
+    if (!document.hidden) {
+      forceHeroVideoPlay();
+    }
+  });
+
   // --- 2. Branch State Manager ---
   function updateBranchUI(branchCode) {
     currentBranch = branchCode;
