@@ -1567,12 +1567,10 @@ section {
   height: auto;
   display: block;
   object-fit: cover;
-  filter: grayscale(1);
   transition: var(--transition-smooth);
 }
 
 .founder-image:hover {
-  filter: grayscale(0);
   transform: scale(1.03);
 }
 
