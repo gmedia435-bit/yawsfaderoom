@@ -1,0 +1,47 @@
+---
+// Header.astro
+---
+<header class="header">
+  <div class="header-container">
+    <a href="#" class="logo-link" id="nav-logo">
+      <div class="logo-box">
+        <img src="/assets/yawlogo.jpeg" alt="Yaw's Faderoom Logo" class="logo-img">
+        <span class="logo-text">YAW'S FADEROOM</span>
+      </div>
+    </a>
+
+    <nav class="nav-menu">
+      <a href="#about" class="nav-item">Our Story</a>
+      <a href="#process" class="nav-item">The Science</a>
+      <a href="#proof" class="nav-item">Proof of Work</a>
+      <a href="#authority" class="nav-item">Icons Served</a>
+      <a href="#testimonials" class="nav-item">Reviews</a>
+      <a href="#" class="nav-btn booking-trigger">Claim VIP Spot</a>
+    </nav>
+
+    <div class="branch-selector-header">
+      <button class="branch-toggle-btn active" data-branch="us" id="btn-branch-us">🇺🇸 USA</button>
+      <button class="branch-toggle-btn" data-branch="gh" id="btn-branch-gh">🇬🇭 GHANA</button>
+    </div>
+
+    <button class="hamburger-menu" id="hamburger-menu" aria-label="Toggle menu">
+      <span class="bar"></span>
+      <span class="bar"></span>
+      <span class="bar"></span>
+    </button>
+  </div>
+
+  <div class="mobile-nav" id="mobile-nav">
+    <a href="#about" class="mobile-nav-item">Our Story</a>
+    <a href="#process" class="mobile-nav-item">The Science</a>
+    <a href="#proof" class="mobile-nav-item">Proof of Work</a>
+    <a href="#authority" class="mobile-nav-item">Icons Served</a>
+    <a href="#testimonials" class="mobile-nav-item">Reviews</a>
+    <div class="mobile-branch-toggle">
+      <span class="mobile-toggle-label">Location:</span>
+      <button class="branch-toggle-btn active" data-branch="us">🇺🇸 USA</button>
+      <button class="branch-toggle-btn" data-branch="gh">🇬🇭 GHANA</button>
+    </div>
+    <a href="#" class="mobile-nav-btn booking-trigger">Claim VIP Spot</a>
+  </div>
+</header>

@@ -1,0 +1,283 @@
+---
+// BookingModal.astro — Floating WhatsApp button + VIP booking modal + all JS
+---
+
+<!-- Floating WhatsApp Button -->
+<button class="floating-whatsapp-btn" id="floating-whatsapp-trigger" aria-label="Book via WhatsApp">
+  <span class="whatsapp-pulse"></span>
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 58 58" class="whatsapp-icon-svg">
+    <circle cx="29" cy="29" r="29" fill="#25D366"/>
+    <path fill="#fff" d="M29 13C20.163 13 13 20.163 13 29c0 2.912.784 5.64 2.15 8L13 45l8.294-2.117A15.92 15.92 0 0 0 29 45c8.837 0 16-7.163 16-16S37.837 13 29 13zm8.131 21.973c-.34.955-1.99 1.826-2.713 1.943-.694.113-1.571.16-2.534-.16-.584-.19-1.333-.443-2.283-.867-4.013-1.732-6.634-5.765-6.834-6.032-.2-.267-1.633-2.17-1.633-4.14 0-1.97 1.033-2.94 1.4-3.34.366-.4.8-.5 1.066-.5h.767c.247 0 .581-.093.912.696.34.814 1.153 2.99 1.254 3.207.1.217.167.47.033.75-.133.28-.2.453-.4.7-.2.247-.42.551-.6.74-.2.206-.408.43-.175.843.233.413 1.035 1.71 2.22 2.77 1.527 1.36 2.814 1.78 3.213 1.98.4.2.633.167.867-.1.233-.267 1-1.166 1.267-1.566.266-.4.533-.333.9-.2.366.133 2.333 1.1 2.733 1.3.4.2.666.3.766.467.1.166.1.953-.24 1.909z"/>
+  </svg>
+</button>
+
+<!-- VIP Booking Modal -->
+<div class="modal-overlay" id="booking-modal-overlay">
+  <div class="modal-box">
+    <button class="modal-close-btn" id="booking-modal-close" aria-label="Close modal">&times;</button>
+    <div class="booking-box-header">
+      <h3>Claim Your VIP Spot</h3>
+      <p>Just one step away from skipping the queue. Fill in your details below and we will send your appointment summary straight to WhatsApp for instant confirmation.</p>
+    </div>
+
+    <div class="booking-branch-toggle">
+      <button type="button" class="branch-modal-btn active" data-modal-branch="us" id="modal-branch-us">🇺🇸 USA Branch</button>
+      <button type="button" class="branch-modal-btn" data-modal-branch="gh" id="modal-branch-gh">🇬🇭 Ghana Branch</button>
+    </div>
+
+    <form class="booking-form" id="modal-booking-form">
+      <input type="hidden" name="modal_sec_token" value="sec_yaws_fade_modal_2026">
+      <div class="form-group">
+        <label for="modal-booking-name">YOUR NAME</label>
+        <input type="text" id="modal-booking-name" placeholder="Enter your full name" required autocomplete="name">
+      </div>
+      <div class="form-group">
+        <label for="modal-booking-date">DATE</label>
+        <input type="date" id="modal-booking-date" required>
+      </div>
+      <div class="form-group">
+        <label for="modal-booking-time">PREFERRED TIME</label>
+        <input type="time" id="modal-booking-time" required>
+      </div>
+      <p class="booking-disclaimer">
+        ⚠️ <strong>Please note:</strong> Booking online to skip the queue attracts an additional priority fee. Walk-in rates apply for standard queuing.
+      </p>
+      <button type="submit" class="btn-submit-booking">
+        <span>CONFIRM BOOKING VIA WHATSAPP</span>
+        <svg class="submit-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </button>
+    </form>
+  </div>
+</div>
+
+<script>
+/* ==========================================================================
+   Yaw's Faderoom — Core Interaction & Business Logic (Astro Component Script)
+   ========================================================================== */
+document.addEventListener('DOMContentLoaded', () => {
+
+  const branchData = {
+    us: {
+      title: 'Minnesota Branch',
+      address: "Northeast Minneapolis Area, MN (45°00'56.3\"N 93°15'59.9\"W)",
+      phone: '+1 218-940-0374',
+      phoneDial: '12189400374',
+      mapUrl: "https://www.google.com/maps/place/45%C2%B000'56.3%22N+93%C2%B015'59.9%22W/@45.0156531,-93.2668849,21z",
+      mapEmbedUrl: 'https://maps.google.com/maps?q=45.0156404,-93.2666473&z=16&output=embed'
+    },
+    gh: {
+      title: 'Accra Branch',
+      address: "Yaw's Faderoom, Dome Road, Accra, Ghana",
+      phone: '+233 240695968',
+      phoneDial: '233240695968',
+      mapUrl: 'https://www.google.com/maps/place/YAW%E2%80%99s+FADEROOM/@5.6485209,-0.2296482,17z',
+      mapEmbedUrl: 'https://maps.google.com/maps?q=5.6485209,-0.2296482&z=17&output=embed'
+    }
+  };
+
+  let currentBranch = 'us';
+
+  const header = document.querySelector('.header');
+  const hamburgerMenu = document.getElementById('hamburger-menu');
+  const mobileNav = document.getElementById('mobile-nav');
+  const galleryVideos = document.querySelectorAll('.gallery-video');
+  const sarkodieVideo = document.getElementById('sarkodie-video');
+
+  // --- 1. iOS Hero Video Autoplay Fix ---
+  const heroVideo = document.getElementById('hero-video-element');
+  function forceHeroVideoPlay() {
+    if (!heroVideo) return;
+    heroVideo.muted = true;
+    const playPromise = heroVideo.play();
+    if (playPromise !== undefined) {
+      playPromise.catch(() => {
+        const retryPlay = () => {
+          heroVideo.play().catch(() => {});
+          document.removeEventListener('touchstart', retryPlay);
+          document.removeEventListener('click', retryPlay);
+        };
+        document.addEventListener('touchstart', retryPlay, { once: true, passive: true });
+        document.addEventListener('click', retryPlay, { once: true });
+      });
+    }
+  }
+  forceHeroVideoPlay();
+  document.addEventListener('visibilitychange', () => {
+    if (!document.hidden) forceHeroVideoPlay();
+  });
+
+  // --- 2. Branch State Manager ---
+  function updateBranchUI(branchCode) {
+    currentBranch = branchCode;
+    document.querySelectorAll('.branch-selector-header .branch-toggle-btn').forEach(btn => {
+      btn.classList.toggle('active', btn.getAttribute('data-branch') === branchCode);
+    });
+    document.querySelectorAll('.booking-branch-toggle .branch-modal-btn').forEach(btn => {
+      btn.classList.toggle('active', btn.getAttribute('data-modal-branch') === branchCode);
+    });
+    document.querySelectorAll('.mobile-branch-toggle .branch-toggle-btn').forEach(btn => {
+      btn.classList.toggle('active', btn.getAttribute('data-branch') === branchCode);
+    });
+  }
+
+  document.querySelectorAll('.branch-toggle-btn').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      const branchCode = e.currentTarget.getAttribute('data-branch');
+      if (branchCode) updateBranchUI(branchCode);
+    });
+  });
+
+  window.setGlobalBranch = (branchCode) => updateBranchUI(branchCode);
+
+  // --- 3. Scroll Reveal & Header Shrink ---
+  const revealObserver = new IntersectionObserver((entries, observer) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('revealed');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15, rootMargin: '0px 0px -50px 0px' });
+
+  document.querySelectorAll('.reveal-on-scroll').forEach(el => revealObserver.observe(el));
+
+  window.addEventListener('scroll', () => {
+    if (!header) return;
+    if (window.scrollY > 50) {
+      header.style.padding = '0';
+      header.style.backgroundColor = 'rgba(5, 5, 5, 0.9)';
+    } else {
+      header.style.padding = '10px 0';
+      header.style.backgroundColor = 'rgba(5, 5, 5, 0.7)';
+    }
+  });
+
+  // --- 4. Mobile Nav ---
+  if (hamburgerMenu && mobileNav) {
+    hamburgerMenu.addEventListener('click', () => {
+      hamburgerMenu.classList.toggle('active');
+      mobileNav.classList.toggle('active');
+      const bars = hamburgerMenu.querySelectorAll('.bar');
+      if (hamburgerMenu.classList.contains('active')) {
+        bars[0].style.transform = 'rotate(-45deg) translate(-5px, 6px)';
+        bars[1].style.opacity = '0';
+        bars[2].style.transform = 'rotate(45deg) translate(-5px, -6px)';
+      } else {
+        bars[0].style.transform = 'none';
+        bars[1].style.opacity = '1';
+        bars[2].style.transform = 'none';
+      }
+    });
+    mobileNav.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        hamburgerMenu.classList.remove('active');
+        mobileNav.classList.remove('active');
+        const bars = hamburgerMenu.querySelectorAll('.bar');
+        bars[0].style.transform = 'none';
+        bars[1].style.opacity = '1';
+        bars[2].style.transform = 'none';
+      });
+    });
+  }
+
+  // --- 5. Video Handling ---
+  galleryVideos.forEach(video => {
+    const card = video.closest('.gallery-card');
+    card.addEventListener('mouseenter', () => video.play().catch(() => {}));
+    card.addEventListener('mouseleave', () => { video.pause(); video.currentTime = 0; });
+  });
+
+  const mobileVideoObserver = new IntersectionObserver((entries) => {
+    if (window.matchMedia('(max-width: 768px)').matches) {
+      entries.forEach(entry => {
+        const video = entry.target.querySelector('video');
+        if (video) { entry.isIntersecting ? video.play().catch(() => {}) : video.pause(); }
+      });
+    }
+  }, { threshold: 0.5 });
+
+  document.querySelectorAll('.gallery-card, .celeb-card.video-card').forEach(card => mobileVideoObserver.observe(card));
+
+  if (sarkodieVideo) {
+    const parentCard = sarkodieVideo.closest('.video-card');
+    const playOverlay = parentCard.querySelector('.video-overlay-play');
+    parentCard.addEventListener('click', () => {
+      if (sarkodieVideo.paused) {
+        galleryVideos.forEach(v => v.pause());
+        sarkodieVideo.play().then(() => {
+          playOverlay.style.opacity = '0';
+          playOverlay.style.pointerEvents = 'none';
+        }).catch(() => {});
+      } else {
+        sarkodieVideo.pause();
+        playOverlay.style.opacity = '1';
+        playOverlay.style.pointerEvents = 'auto';
+      }
+    });
+  }
+
+  // --- 6. VIP Booking Modal ---
+  const modalOverlay = document.getElementById('booking-modal-overlay');
+  const modalClose = document.getElementById('booking-modal-close');
+  const modalForm = document.getElementById('modal-booking-form');
+  const modalName = document.getElementById('modal-booking-name');
+  const modalDate = document.getElementById('modal-booking-date');
+  const modalTime = document.getElementById('modal-booking-time');
+  const modalUsBtn = document.getElementById('modal-branch-us');
+  const modalGhBtn = document.getElementById('modal-branch-gh');
+  const floatingBtn = document.getElementById('floating-whatsapp-trigger');
+
+  if (modalDate) {
+    modalDate.min = new Date().toISOString().split('T')[0];
+  }
+
+  function openBookingModal() {
+    if (!modalOverlay) return;
+    modalOverlay.style.display = 'flex';
+    setTimeout(() => modalOverlay.classList.add('active'), 10);
+  }
+
+  function closeBookingModal() {
+    if (!modalOverlay) return;
+    modalOverlay.classList.remove('active');
+    setTimeout(() => { modalOverlay.style.display = 'none'; }, 400);
+  }
+
+  document.querySelectorAll('.booking-trigger').forEach(t => {
+    t.addEventListener('click', (e) => { e.preventDefault(); openBookingModal(); });
+  });
+
+  if (floatingBtn) floatingBtn.addEventListener('click', (e) => { e.preventDefault(); openBookingModal(); });
+  if (modalClose) modalClose.addEventListener('click', closeBookingModal);
+  if (modalOverlay) modalOverlay.addEventListener('click', (e) => { if (e.target === modalOverlay) closeBookingModal(); });
+
+  if (modalUsBtn) modalUsBtn.addEventListener('click', () => updateBranchUI('us'));
+  if (modalGhBtn) modalGhBtn.addEventListener('click', () => updateBranchUI('gh'));
+
+  if (modalForm) {
+    modalForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const nameVal = modalName.value.trim().replace(/[<>'"&]/g, '');
+      const dateVal = modalDate.value;
+      const timeVal = modalTime.value;
+      if (!nameVal || !dateVal || !timeVal) { alert('Please fill in all booking fields.'); return; }
+
+      const formattedDate = new Date(dateVal).toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+      let [hours, minutes] = timeVal.split(':');
+      const ampm = hours >= 12 ? 'PM' : 'AM';
+      hours = hours % 12 || 12;
+      const formattedTime = `${hours}:${minutes} ${ampm}`;
+
+      const selectedBranchName = currentBranch === 'us' ? 'Minnesota Branch (USA)' : 'Accra Branch (Ghana)';
+      const targetPhone = branchData[currentBranch].phoneDial;
+      const message = `Hello Yaw's Faderoom! 💈\n\nI want to claim my VIP Spot and bypass the queue. Here are my details:\n\n👤 NAME: ${nameVal}\n📅 DATE: ${formattedDate}\n⏰ TIME: ${formattedTime}\n📍 LOCATION: ${selectedBranchName}\n\nPlease confirm if this booking slot is locked in. Looking forward to the premium experience!`;
+      const whatsappUrl = `https://wa.me/${targetPhone}?text=${encodeURIComponent(message)}`;
+      const newWindow = window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
+      if (newWindow) newWindow.opener = null;
+      closeBookingModal();
+    });
+  }
+
+  updateBranchUI('us');
+});
+</script>

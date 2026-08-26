@@ -1,0 +1,43 @@
+---
+// ProofOfWork.astro
+const videos = [
+  { src: "/assets/yawT1.mp4", title: "Stitch Cornrows & Lineup", desc: "Precision stitch braids with custom geometric parting and sharp hairline finish" },
+  { src: "/assets/yawT2.mp4", title: "Designer Twists & Taper", desc: "Custom grid-parted twists paired with a clean temple taper fade" },
+  { src: "/assets/yawT3.mp4", title: "Precision Waves & Parting", desc: "Textured coily top with custom curved razor graphic parting artwork" },
+  { src: "/assets/yawT4.mp4", title: "High-Drop Fade & Lineup", desc: "High-contrast drop skin fade featuring razor-sharp forehead and beard borders" },
+  { src: "/assets/testi1.mp4", title: "Platinum Blonde Crop & Parting", desc: "Platinum blonde crop with custom geometric razor design & contour parting" },
+  { src: "/assets/testi2.mp4", title: "Razor Beard Sculpt & Lineup", desc: "Precision straight-razor cheek line, neck cleanup, and full beard shaping" },
+  { src: "/assets/testi3.mp4", title: "Clean Skin Fade", desc: "High-contrast side blending with a smooth skin drop transition" },
+  { src: "/assets/testi4.mp4", title: "Precision Waves & Taper", desc: "Reddish coily crop with a clean side razor line & low taper" },
+];
+---
+<section class="proof-section" id="proof">
+  <div class="container">
+    <div class="center-header">
+      <span class="section-label reveal-on-scroll">EVIDENCE OF QUALITY</span>
+      <h2 class="section-title reveal-on-scroll">The Results Speak For Themselves</h2>
+      <p class="section-subtitle reveal-on-scroll">
+        Hover or tap any video below to see our craft in high definition. No filters, no edits — just pure skill and precision styling.
+      </p>
+    </div>
+
+    <div class="proof-gallery">
+      {videos.map((v) => (
+        <div class="gallery-card reveal-on-scroll">
+          <div class="video-container">
+            <video class="gallery-video" loop muted playsinline webkit-playsinline x5-playsinline disableremoteplayback preload="auto">
+              <source src={v.src} type="video/mp4">
+            </video>
+            <div class="video-overlay-play">
+              <div class="play-icon"></div>
+            </div>
+          </div>
+          <div class="gallery-info">
+            <h4>{v.title}</h4>
+            <p>{v.desc}</p>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

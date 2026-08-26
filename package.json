@@ -4,9 +4,14 @@
   "description": "Premium website for Yaw's Faderoom (USA & Ghana branches)",
   "main": "index.html",
   "scripts": {
-    "dev": "http-server -p 3000"
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview"
   },
   "devDependencies": {
-    "http-server": "^14.1.1"
+    "astro": "^7.2.7",
+    "http-server": "^14.1.1",
+    "typescript": "^7.0.2"
   }
 }
