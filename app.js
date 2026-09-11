@@ -71,7 +71,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const playPromise = heroVideo.play();
     if (playPromise !== undefined) {
       playPromise.catch(() => {
-        // Autoplay was blocked — retry on first user interaction
+        // Autoplay was blocked - retry on first user interaction
         const retryPlay = () => {
           heroVideo.play().catch(() => {});
           document.removeEventListener('touchstart', retryPlay);

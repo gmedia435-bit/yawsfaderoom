@@ -1,5 +1,5 @@
 ---
-// BookingModal.astro — Floating WhatsApp button + VIP booking modal + all JS
+// BookingModal.astro - Floating WhatsApp button + VIP booking modal + all JS
 ---
 
 <!-- Floating WhatsApp Button -->
@@ -16,8 +16,8 @@
   <div class="modal-box">
     <button class="modal-close-btn" id="booking-modal-close" aria-label="Close modal">&times;</button>
     <div class="booking-box-header">
-      <h3>Claim Your VIP Spot</h3>
-      <p>Just one step away from skipping the queue. Fill in your details below and we will send your appointment summary straight to WhatsApp for instant confirmation.</p>
+      <h3 id="modal-heading">Claim Your VIP Spot</h3>
+      <p id="modal-subheading">Book your appointment on Booksy for real-time calendar availability at our Minneapolis branch.</p>
     </div>
 
     <div class="booking-branch-toggle">
@@ -25,34 +25,51 @@
       <button type="button" class="branch-modal-btn" data-modal-branch="gh" id="modal-branch-gh">🇬🇭 Ghana Branch</button>
     </div>
 
-    <form class="booking-form" id="modal-booking-form">
-      <input type="hidden" name="modal_sec_token" value="sec_yaws_fade_modal_2026">
-      <div class="form-group">
-        <label for="modal-booking-name">YOUR NAME</label>
-        <input type="text" id="modal-booking-name" placeholder="Enter your full name" required autocomplete="name">
+    <!-- USA Booksy Panel -->
+    <div class="branch-booking-panel" id="modal-panel-us">
+      <div class="booksy-card">
+        <div class="booksy-badge">BOOKSY ONLINE SCHEDULING</div>
+        <h4>Minneapolis, MN Appointments</h4>
+        <p>For our USA branch, all appointments and real-time chair availability are booked directly through Booksy.</p>
+        <a href="https://patricksolane.booksy.com/a/" target="_blank" rel="noopener noreferrer" class="btn-submit-booking">
+          <span>BOOK APPOINTMENT ON BOOKSY</span>
+          <svg class="submit-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </a>
+        <p class="booksy-direct-call">Prefer to call or text? <a href="tel:+12189400374" class="info-link">+1 218-940-0374</a></p>
       </div>
-      <div class="form-group">
-        <label for="modal-booking-date">DATE</label>
-        <input type="date" id="modal-booking-date" required>
-      </div>
-      <div class="form-group">
-        <label for="modal-booking-time">PREFERRED TIME</label>
-        <input type="time" id="modal-booking-time" required>
-      </div>
-      <p class="booking-disclaimer">
-        ⚠️ <strong>Please note:</strong> Booking online to skip the queue attracts an additional priority fee. Walk-in rates apply for standard queuing.
-      </p>
-      <button type="submit" class="btn-submit-booking">
-        <span>CONFIRM BOOKING VIA WHATSAPP</span>
-        <svg class="submit-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-      </button>
-    </form>
+    </div>
+
+    <!-- Ghana WhatsApp Panel -->
+    <div class="branch-booking-panel" id="modal-panel-gh" style="display: none;">
+      <form class="booking-form" id="modal-booking-form">
+        <input type="hidden" name="modal_sec_token" value="sec_yaws_fade_modal_2026">
+        <div class="form-group">
+          <label for="modal-booking-name">YOUR NAME</label>
+          <input type="text" id="modal-booking-name" placeholder="Enter your full name" autocomplete="name">
+        </div>
+        <div class="form-group">
+          <label for="modal-booking-date">DATE</label>
+          <input type="date" id="modal-booking-date">
+        </div>
+        <div class="form-group">
+          <label for="modal-booking-time">PREFERRED TIME</label>
+          <input type="time" id="modal-booking-time">
+        </div>
+        <p class="booking-disclaimer">
+          ⚠️ <strong>Please note:</strong> Booking online to skip the queue attracts an additional priority fee. Walk-in rates apply for standard queuing.
+        </p>
+        <button type="submit" class="btn-submit-booking">
+          <span>CONFIRM BOOKING VIA WHATSAPP</span>
+          <svg class="submit-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </button>
+      </form>
+    </div>
   </div>
 </div>
 
 <script>
 /* ==========================================================================
-   Yaw's Faderoom — Core Interaction & Business Logic (Astro Component Script)
+   Yaw's Faderoom - Core Interaction & Business Logic (Astro Component Script)
    ========================================================================== */
 document.addEventListener('DOMContentLoaded', () => {
 
@@ -118,6 +135,26 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('.mobile-branch-toggle .branch-toggle-btn').forEach(btn => {
       btn.classList.toggle('active', btn.getAttribute('data-branch') === branchCode);
     });
+
+    const usPanel = document.getElementById('modal-panel-us');
+    const ghPanel = document.getElementById('modal-panel-gh');
+    const modalSubheading = document.getElementById('modal-subheading');
+
+    if (usPanel && ghPanel) {
+      if (branchCode === 'us') {
+        usPanel.style.display = 'block';
+        ghPanel.style.display = 'none';
+        if (modalSubheading) {
+          modalSubheading.textContent = "Book your appointment on Booksy for real-time calendar availability at our Minneapolis branch.";
+        }
+      } else {
+        usPanel.style.display = 'none';
+        ghPanel.style.display = 'block';
+        if (modalSubheading) {
+          modalSubheading.textContent = "Fill in your details below and we will send your appointment summary straight to WhatsApp for instant confirmation.";
+        }
+      }
+    }
   }
 
   document.querySelectorAll('.branch-toggle-btn').forEach(btn => {
@@ -257,9 +294,9 @@ document.addEventListener('DOMContentLoaded', () => {
   if (modalForm) {
     modalForm.addEventListener('submit', (e) => {
       e.preventDefault();
-      const nameVal = modalName.value.trim().replace(/[<>'"&]/g, '');
-      const dateVal = modalDate.value;
-      const timeVal = modalTime.value;
+      const nameVal = modalName ? modalName.value.trim().replace(/[<>'"&]/g, '') : '';
+      const dateVal = modalDate ? modalDate.value : '';
+      const timeVal = modalTime ? modalTime.value : '';
       if (!nameVal || !dateVal || !timeVal) { alert('Please fill in all booking fields.'); return; }
 
       const formattedDate = new Date(dateVal).toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
@@ -268,8 +305,8 @@ document.addEventListener('DOMContentLoaded', () => {
       hours = hours % 12 || 12;
       const formattedTime = `${hours}:${minutes} ${ampm}`;
 
-      const selectedBranchName = currentBranch === 'us' ? 'Minnesota Branch (USA)' : 'Accra Branch (Ghana)';
-      const targetPhone = branchData[currentBranch].phoneDial;
+      const selectedBranchName = 'Accra Branch (Ghana)';
+      const targetPhone = branchData.gh.phoneDial;
       const message = `Hello Yaw's Faderoom! 💈\n\nI want to claim my VIP Spot and bypass the queue. Here are my details:\n\n👤 NAME: ${nameVal}\n📅 DATE: ${formattedDate}\n⏰ TIME: ${formattedTime}\n📍 LOCATION: ${selectedBranchName}\n\nPlease confirm if this booking slot is locked in. Looking forward to the premium experience!`;
       const whatsappUrl = `https://wa.me/${targetPhone}?text=${encodeURIComponent(message)}`;
       const newWindow = window.open(whatsappUrl, '_blank', 'noopener,noreferrer');

@@ -4,7 +4,7 @@ import { defineConfig } from 'astro/config';
 export default defineConfig({
   vite: {
     build: {
-      // Do not inline large assets — serve them from CDN
+      // Do not inline large assets - serve them from CDN
       assetsInlineLimit: 0,
     },
     // Exclude large video files from being processed/copied by Vite
